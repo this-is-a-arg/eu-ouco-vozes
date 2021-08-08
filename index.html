@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+   <meta charset="utf-8">
+    <title>h�lp</title>
+    <style>
+    #canvas {
+        z-index: -100;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0.8;
+        background-color: rgb(241, 13, 13);
+    }
+    /*talvez ela precise de ajuda.*/ 
+    h1 {
+        color: black;
+        text-align: center;
+        font-size: 20px;
+        }
+            
+        body {
+            text-align: center;
+        } /*tudo que você pode fazer é aguardar.*/
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <h1>eu n�o s�i onde estou.</h1>
+    <script>
+        var canvas = document.getElementById('canvas'),
+        ctx = canvas.getContext('2d');
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resize();
+        window.onresize = resize;
+    
+        function generate_noise(ctx) {
+            var w = ctx.canvas.width,
+            h = ctx.canvas.height,
+            idata = ctx.createImageData(w, h),
+                    
+            buffer32 = new Uint32Array(idata.data.buffer),
+            buffer_len = buffer32.length,
+            i = 0
+             
+            for (; i < buffer_len; i++)
+                buffer32[i] =
+                    ((255 * Math.random()) | 0) << 24;
+                
+            ctx.putImageData(idata, 0, 0);
+            }
+    
+            var toggle = true;
+            (function loop() {
+                toggle = !toggle;
+                if (toggle) {
+                    requestAnimationFrame(loop);
+                    return;
+                }
+                generate_noise(ctx);
+                requestAnimationFrame(loop);
+            })();
+    </script>
+</body>
+</html>
